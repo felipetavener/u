@@ -26,14 +26,23 @@ for row in table[9:-8]:
 
 df = pd.DataFrame(body, columns = header)
 
-
-
-
-# 1) remove +, ,
-# 2) convert to Integer
-
-
 header_numbers = ['Total Cases', 'New Cases', 'Total Deaths',
        'New Deaths', 'Total Recovered', 'Active Cases', 'Serious, Critical',
        'TotCases/ 1M pop', 'Deaths/ 1M pop', 'Total Tests',
        'Tests/ \n1M pop\n', 'Population']
+
+
+def clean_value(x):
+    x = x.replace("+","").replace(",","").replace(" ", "").strip()
+    return 0 if x in ['', 'N/A'] else float(x)
+
+
+for element in header_numbers:
+    df[element] = df[element].apply(clean_value)
+
+
+
+print(df.sample(20))
+
+
+
